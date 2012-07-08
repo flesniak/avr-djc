@@ -1,0 +1,15 @@
+avr-gcc -DF_CPU=8000000 -Os -mmcu=atmega8 -o amp amp.c
+
+avr-objcopy -O ihex amp amp.hex
+
+avrdude -pm8 -cavrusb400 -e -U flash:w:amp
+
+----------/opt/cross/etc/avrdude.conf----------
+default_serial     = "/dev/ttyUSB0";
+
+programmer
+  id    = "avrusb500";
+  desc  = "Atmel AVR ISP V2";
+  type  =  stk500v2;
+;
+-----------------------------------------------
