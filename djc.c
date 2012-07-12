@@ -8,24 +8,33 @@
 #include "usbdrv/usbdrv.h"
 #include "descriptors.h"
 
-#define BUFSIZE 128
+#define BUFSIZE 512
 #define HYSTERESIS 6
 
-#define TOGGLEADC             (PORTD ^= 1 << 6)
+#define TOGGLEADC             (PORTD ^= (1 << 6))
 #define ADCSELECT             (PORTD >> 6 & 1)
 #define SETPLEXADR(x)         (PORTC = x & 7)
 #define BUTTONPLEXSTATE(x)    (PINC >> (x+3) & 1)
 #define BUTTONSAVEDSTATE(p,n) (saveButton[p] >> n & 1)
 #define TOGGLESAVEDSTATE(p,n) (saveButton[p] ^= (1 << n))
 #define LEDSTATE(p,n)         (saveLED[p] >> n & 1) //returns saved LED status of LED n on multiplexer p
+#define ENCODERPORTA          (PIND >> 3 & 1)
+#define ENCODERPORTB          (PIND >> 4 & 1)
+#define ENCODERBUTTON         (PIND >> 5 & 1)
+#define SHIFT                 (PIND & 1)
 
 uchar saveButton[5];
 uchar saveLED[4];
 int saveADC[16];
 uchar buffer[BUFSIZE];
+uchar encoderState;
 unsigned short bufferIndex;
 unsigned short bufferSendIndex;
 short debugtime = 0;
+
+/****************
+ * INITIALIZERS *
+ ****************/
 
 void initHardware()
 {
@@ -37,9 +46,9 @@ void initHardware()
 
   //Enable all pull-ups
   PORTA = 0x00; //PORTA is ADC - no pullups here!
-  PORTB = 0xf0;
-  PORTC = 0x00; //no pullups on address pins nor on plex outputs (state is defined by plex)
-  PORTD = 0xff;
+  PORTB = 0x00;
+  PORTC = 0x00; //no pullups on plex outputs (state is defined by plex)
+  PORTD = 0x01;
 
   //Disable pull-up on USB ports
   USB_CFG_IOPORT = ~((1 << USB_CFG_DMINUS_BIT) | (1 << USB_CFG_DPLUS_BIT));
@@ -48,7 +57,6 @@ void initHardware()
   ADCSRA = (1 << ADEN) | (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0);
 }
 
-//USB MANAGEMENT FUNCTIONS
 void initUsb()
 {
   usbDeviceDisconnect();
@@ -57,22 +65,28 @@ void initUsb()
   usbInit();
 }
 
-uchar usbFunctionDescriptor(usbRequest_t * rq)
+void initMemory()
 {
-  if (rq->wValue.bytes[1] == USBDESCR_DEVICE) {
-    usbMsgPtr = (uchar *) deviceDescrMIDI;
-    return sizeof(deviceDescrMIDI);
-  }
-  if (rq->wValue.bytes[1] == USBDESCR_CONFIG) {
-    usbMsgPtr = (uchar *) configDescrMIDI;
-    return sizeof(configDescrMIDI);
-  }
+  wdt_enable(WDTO_1S);
+
+  //Clean data buffers
+  for(bufferIndex = 0; bufferIndex < BUFSIZE ; bufferIndex++)
+    buffer[bufferIndex] = 0;
+  bufferIndex = 0;
+  bufferSendIndex = 0;
+
+  uchar i;
+  for(i=0; i < 16; i++)
+    saveADC[i] = 0;
+  for(i=0; i < 5; i++)
+    saveButton[i] = 0;
+  for(i=0; i < 4; i++)
+    saveLED[i] = 0;
 }
 
-usbMsgLen_t usbFunctionSetup(uchar *setupData)
-{
-    return 0; // ignore all unknown requests
-}
+/********************
+ * PACKET PREPARING *
+ ********************/
 
 void keyChange(uchar num, bool noteoff)
 {
@@ -96,10 +110,29 @@ void adcChange(uchar chan, int value)
   }
 }
 
+/****************************
+ * USB MANAGEMENT FUNCTIONS *
+ ****************************/
+
+uchar usbFunctionDescriptor(usbRequest_t * rq)
+{
+  if (rq->wValue.bytes[1] == USBDESCR_DEVICE) {
+    usbMsgPtr = (uchar *) deviceDescrMIDI;
+    return sizeof(deviceDescrMIDI);
+  }
+  if (rq->wValue.bytes[1] == USBDESCR_CONFIG) {
+    usbMsgPtr = (uchar *) configDescrMIDI;
+    return sizeof(configDescrMIDI);
+  }
+}
+
+usbMsgLen_t usbFunctionSetup(uchar *setupData)
+{
+    return 0; //ignore all unknown requests
+}
+
 void usbFunctionWriteOut(uchar *data, uchar len)
 {
-  debugtime = 10;
-  PORTD &= ~(1 << 5);
   if( len < 3 )
     return;
   uchar ledIndex = data[2]-96;
@@ -115,6 +148,10 @@ void usbFunctionWriteOut(uchar *data, uchar len)
   }
 }
 
+/******************
+ * POLL FUNCTIONS *
+ ******************/
+
 void pollPlex() //poll and update every (De-)Multiplexer based function
 {
   uchar address, plexnum;
@@ -124,7 +161,7 @@ void pollPlex() //poll and update every (De-)Multiplexer based function
     //Check buttons
     for(plexnum = 0; plexnum < 5; plexnum++)
       if( BUTTONPLEXSTATE(plexnum) != BUTTONSAVEDSTATE(plexnum,address) ) {
-        keyChange(address*(plexnum+1),BUTTONSAVEDSTATE(plexnum,address) == 0); //Send key change packet
+        keyChange((address+1)*(plexnum+1),BUTTONSAVEDSTATE(plexnum,address) == 0); //Send key change packet
         TOGGLESAVEDSTATE(plexnum,address);
       }
 
@@ -157,24 +194,28 @@ void pollADC() {
   }
 }
 
-void initMemory()
-{
-  wdt_enable(WDTO_1S);
+void pollEncoder() {
+  if( ENCODERPORTA ) {
+    if( encoderState & 1 ) {
+      encoderState |= 1;
+      if( ENCODERPORTB )
+        keyChange(33,true); //CW
+      else
+        keyChange(32,true); //CCW
+    }
+  }
+  else
+    encoderState &= ~1;
 
-  //Clean data buffers
-  for(bufferIndex = 0; bufferIndex < BUFSIZE ; bufferIndex++)
-    buffer[bufferIndex] = 0;
-  bufferIndex = 0;
-  bufferSendIndex = 0;
-
-  uchar i;
-  for(i=0; i < 16; i++)
-    saveADC[i] = 0;
-  for(i=0; i < 5; i++)
-    saveButton[i] = 0;
-  for(i=0; i < 4; i++)
-    saveLED[i] = 0;
+  if( ENCODERBUTTON != (encoderState >> 1 & 1) ) {
+    keyChange(34,!(encoderState >> 1 & 1));
+    encoderState ^= 1 << 1;
+  }
 }
+
+/*************
+ * MAIN LOOP *
+ *************/
 
 int main() {
   initHardware();
@@ -197,15 +238,15 @@ int main() {
     }
 
     //First ADC step
-    pollADC();
-    TOGGLEADC;
+    //pollADC();
+    //TOGGLEADC;
 
     //Do something else to give ADC select time to settle
     pollPlex();
 
     //Second ADC step
-    pollADC();
-    TOGGLEADC;
+    //pollADC();
+    //TOGGLEADC;
 
     flashtime++;
     if( flashtime >= 50 ) {
@@ -215,22 +256,9 @@ int main() {
           saveLED[index] = 0;
         else
           saveLED[index] = 255;
-      PORTD ^= (1 << 7);
       flashtime = 0;
     }
 }
 
 return(0);
 }
-
-/*
-short flashtime = 0;
-  //Debug LED stuff
-  if( debugtime > 0 )
-    debugtime--;
-  else
-    PORTD |= 1 << 5;
-  flashtime++;
-  if( flashtime >= 50 ) {
-    PORTD ^= 1 << 6;
-    flashtime = 0;*/
