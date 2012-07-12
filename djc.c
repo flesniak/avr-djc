@@ -46,7 +46,7 @@ void initHardware()
 
   //Enable all pull-ups
   PORTA = 0x00; //PORTA is ADC - no pullups here!
-  PORTB = 0xf0;
+  PORTB = 0x00;
   PORTC = 0x00; //no pullups on plex outputs (state is defined by plex)
   PORTD = 0x01;
 
@@ -128,7 +128,7 @@ uchar usbFunctionDescriptor(usbRequest_t * rq)
 
 usbMsgLen_t usbFunctionSetup(uchar *setupData)
 {
-    return 0; // ignore all unknown requests
+    return 0; //ignore all unknown requests
 }
 
 void usbFunctionWriteOut(uchar *data, uchar len)
