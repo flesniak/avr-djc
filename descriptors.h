@@ -135,3 +135,4 @@ static PROGMEM char configDescrMIDI[] = {
 	1,			/* bNumEmbMIDIJack (0) */
 	3,			/* baAssocJackID (0) */
 };
+
