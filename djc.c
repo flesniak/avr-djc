@@ -18,8 +18,8 @@
 #define BUTTONSAVEDSTATE(p,n) (saveButton[p] >> n & 1)
 #define TOGGLESAVEDSTATE(p,n) (saveButton[p] ^= (1 << n))
 #define LEDSTATE(p,n)         (saveLED[p] >> n & 1) //returns saved LED status of LED n on multiplexer p
-#define ENCODERPORTA          (PIND >> 3 & 1)
-#define ENCODERPORTB          (PIND >> 4 & 1)
+#define ENCODERA              (PIND >> 3 & 1)
+#define ENCODERB              (PIND >> 4 & 1)
 #define ENCODERBUTTON         (PIND >> 5 & 1)
 #define SHIFT                 (PIND & 1)
 
@@ -48,13 +48,17 @@ void initHardware()
   PORTA = 0x00; //PORTA is ADC - no pullups here!
   PORTB = 0x00;
   PORTC = 0x00; //no pullups on plex outputs (state is defined by plex)
-  PORTD = 0x01;
+  PORTD = 0x71;
 
   //Disable pull-up on USB ports
   USB_CFG_IOPORT &= ~((1 << USB_CFG_DMINUS_BIT) | (1 << USB_CFG_DPLUS_BIT));
 
   //Init ADC
   ADCSRA = (1 << ADEN) | (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0);
+
+  //Interrupt INT1 for encoder
+  EICRA = (1 << ISC11) | (0 << ISC10); //Interrupt INT1 on falling edge
+  EIMSK = (1 << INT1); //enable INT1
 }
 
 void initUsb()
@@ -161,7 +165,7 @@ void pollPlex() //poll and update every (De-)Multiplexer based function
     //Check buttons
     for(plexnum = 0; plexnum < 5; plexnum++)
       if( BUTTONPLEXSTATE(plexnum) != BUTTONSAVEDSTATE(plexnum,address) ) {
-        keyChange((address+1)*(plexnum+1),BUTTONSAVEDSTATE(plexnum,address) == 0); //Send key change packet
+        keyChange(address+8*plexnum,BUTTONSAVEDSTATE(plexnum,address) == 0); //Send key change packet
         TOGGLESAVEDSTATE(plexnum,address);
       }
 
@@ -194,23 +198,11 @@ void pollADC() {
   }
 }
 
-void pollEncoder() {
-  if( ENCODERPORTA ) {
-    if( encoderState & 1 ) {
-      encoderState |= 1;
-      if( ENCODERPORTB )
-        keyChange(33,true); //CW
-      else
-        keyChange(32,true); //CCW
-    }
-  }
+ISR( INT1_vect ) {
+  if( ENCODERB )
+    keyChange(33,true); //CW
   else
-    encoderState &= ~1;
-
-  if( ENCODERBUTTON != (encoderState >> 1 & 1) ) {
-    keyChange(34,!(encoderState >> 1 & 1));
-    encoderState ^= 1 << 1;
-  }
+    keyChange(32,true); //CCW
 }
 
 /*************
@@ -248,7 +240,7 @@ int main() {
     //pollADC();
     //TOGGLEADC;
 
-    pollEncoder();
+    //pollEncoder();
 
     flashtime++;
     if( flashtime >= 50 ) {
