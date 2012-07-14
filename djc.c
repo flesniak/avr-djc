@@ -23,6 +23,7 @@
 #define ENCODERBUTTON         (PIND >> 5 & 1)
 #define SHIFT                 (PIND & 1)
 
+//typedef unsigned char uchar;
 uchar saveButton[5];
 uchar saveLED[4];
 int saveADC[16];
@@ -30,7 +31,6 @@ uchar buffer[BUFSIZE];
 uchar encoderState;
 unsigned short bufferIndex;
 unsigned short bufferSendIndex;
-short debugtime = 0;
 
 /****************
  * INITIALIZERS *
@@ -51,7 +51,7 @@ void initHardware()
   PORTD = 0x01;
 
   //Disable pull-up on USB ports
-  USB_CFG_IOPORT = ~((1 << USB_CFG_DMINUS_BIT) | (1 << USB_CFG_DPLUS_BIT));
+  USB_CFG_IOPORT &= ~((1 << USB_CFG_DMINUS_BIT) | (1 << USB_CFG_DPLUS_BIT));
 
   //Init ADC
   ADCSRA = (1 << ADEN) | (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0);
@@ -247,6 +247,8 @@ int main() {
     //Second ADC step
     //pollADC();
     //TOGGLEADC;
+
+    pollEncoder();
 
     flashtime++;
     if( flashtime >= 50 ) {
