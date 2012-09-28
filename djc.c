@@ -165,9 +165,14 @@ void pollPlex() //poll and update every (De-)Multiplexer based function
     //Check buttons
     for(plexnum = 0; plexnum < 5; plexnum++)
       if( BUTTONPLEXSTATE(plexnum) != BUTTONSAVEDSTATE(plexnum,address) ) {
-        keyChange(address+8*plexnum,BUTTONSAVEDSTATE(plexnum,address) == 0); //Send key change packet
+        keyChange(address+8*plexnum+(SHIFT?40:0),BUTTONSAVEDSTATE(plexnum,address) == 0); //Send key change packet
         TOGGLESAVEDSTATE(plexnum,address);
       }
+    //Encoder button
+    if( ENCODERBUTTON != (encoderState & 1) ) {
+      keyChange(82,!(encoderState & 1));
+      encoderState ^= 1;
+    }
 
     //Assign LED state
     PORTB = 0xf0 & ((LEDSTATE(3,address) << 7)
@@ -190,7 +195,10 @@ void pollADC() {
   uchar offset = ADCSELECT ? 8 : 0;
   for(adcIndex = 0; adcIndex < 8; adcIndex++) {
     int newvalue;
-    newvalue = adc(adcIndex);
+    if( offset == 0 && adcIndex == 0 )
+      newvalue = 0; //workaround for missing pot
+    else
+      newvalue = adc(adcIndex);
     if( abs(newvalue - saveADC[adcIndex+offset]) > HYSTERESIS ) {
       saveADC[adcIndex+offset] = newvalue;
       adcChange(adcIndex+offset,newvalue);
@@ -200,9 +208,9 @@ void pollADC() {
 
 ISR( INT1_vect ) {
   if( ENCODERB )
-    keyChange(33,true); //CW
+    keyChange(80,true); //CW
   else
-    keyChange(32,true); //CCW
+    keyChange(81,true); //CCW
 }
 
 /*************
@@ -217,7 +225,7 @@ int main() {
   short flashtime = 0;
 
   while( 1 ) {
-    _delay_ms(10);
+    _delay_ms(5);
     wdt_reset();
     usbPoll();
     if( usbInterruptIsReady() && bufferIndex > 0 ) {
@@ -232,9 +240,19 @@ int main() {
     //First ADC step
     //pollADC();
     //TOGGLEADC;
+    if( flashtime == 100 ) {
+      flashtime = 0;
+      TOGGLEADC;
+    }
+    else {
+      if( flashtime == 50 )
+        pollADC();
+      flashtime++;
+      }
 
     //Do something else to give ADC select time to settle
     pollPlex();
+    _delay_ms(5);
 
     //Second ADC step
     //pollADC();
@@ -242,7 +260,7 @@ int main() {
 
     //pollEncoder();
 
-    flashtime++;
+    /*flashtime++;
     if( flashtime >= 50 ) {
       uchar index;
       for(index = 0; index < 4; index++)
@@ -251,8 +269,8 @@ int main() {
         else
           saveLED[index] = 255;
       flashtime = 0;
-    }
-}
+    }*/
+  }
 
 return(0);
 }
