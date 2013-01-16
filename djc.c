@@ -11,7 +11,8 @@
 #define BUFSIZE 512
 #define HYSTERESIS 6
 
-#define TOGGLEADC             (PORTD ^= (1 << 6))
+#define LWENABLE              (PORTD &= ~(1 << 6)) //former TOGGLEADC
+#define LWDISABLE             (PORTD |= (1 << 6)) //former TOGGLEADC
 #define ADCSELECT             (PORTD >> 6 & 1)
 #define SETPLEXADR(x)         (PORTC = x & 7)
 #define BUTTONPLEXSTATE(x)    (PINC >> (x+3) & 1)
@@ -42,7 +43,7 @@ void initHardware()
   DDRA = 0;
   DDRB = 0b11110000; //pb0+1 jog1 pb2+3 jog2 pb4-7 LED outputs
   DDRC = 0b00000111; //pc0-2 multiplexer address, pc3-7 button poll input
-  DDRD = 0b11000000; //pd0 shift key pd1+2 usb pd3-5 encoder pd6 adc select pd7 xfade center led
+  DDRD = 0b11000000; //pd0 shift key pd1+2 usb pd3-5 encoder pd6 led lash enable pd7 xfade center led
 
   //Enable all pull-ups
   PORTA = 0x00; //PORTA is ADC - no pullups here!
@@ -59,6 +60,9 @@ void initHardware()
   //Interrupt INT1 for encoder
   EICRA = (1 << ISC11) | (0 << ISC10); //Interrupt INT1 on falling edge
   EIMSK = (1 << INT1); //enable INT1
+
+  //Disable LED write
+  LWDISABLE;
 }
 
 void initUsb()
@@ -160,14 +164,15 @@ void pollPlex() //poll and update every (De-)Multiplexer based function
 {
   uchar address, plexnum;
   for(address = 0 ; address < 8 ; address++) { //walk plex address
-    PORTB = 0x00;
     SETPLEXADR(address); //our multiplexer is blazing fast, no need to wait...
 
+    LWENABLE;
     //Assign LED state instantly to reduce ghost-effects
     PORTB = 0xf0 & ((LEDSTATE(3,address) << 7)
                   | (LEDSTATE(2,address) << 6)
                   | (LEDSTATE(1,address) << 5)
                   | (LEDSTATE(0,address) << 4));
+    LWDISABLE;
 
     //Check buttons
     for(plexnum = 0; plexnum < 5; plexnum++)
