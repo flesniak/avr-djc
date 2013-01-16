@@ -160,7 +160,14 @@ void pollPlex() //poll and update every (De-)Multiplexer based function
 {
   uchar address, plexnum;
   for(address = 0 ; address < 8 ; address++) { //walk plex address
+    PORTB = 0x00;
     SETPLEXADR(address); //our multiplexer is blazing fast, no need to wait...
+
+    //Assign LED state instantly to reduce ghost-effects
+    PORTB = 0xf0 & ((LEDSTATE(3,address) << 7)
+                  | (LEDSTATE(2,address) << 6)
+                  | (LEDSTATE(1,address) << 5)
+                  | (LEDSTATE(0,address) << 4));
 
     //Check buttons
     for(plexnum = 0; plexnum < 5; plexnum++)
@@ -173,12 +180,6 @@ void pollPlex() //poll and update every (De-)Multiplexer based function
       keyChange(82,!(encoderState & 1));
       encoderState ^= 1;
     }
-
-    //Assign LED state
-    PORTB = 0xf0 & ((LEDSTATE(3,address) << 7)
-                  | (LEDSTATE(2,address) << 6)
-                  | (LEDSTATE(1,address) << 5)
-                  | (LEDSTATE(0,address) << 4));
   }
 }
 
@@ -240,7 +241,7 @@ int main() {
     //First ADC step
     //pollADC();
     //TOGGLEADC;
-    if( flashtime == 100 ) {
+    /*if( flashtime == 100 ) {
       flashtime = 0;
       TOGGLEADC;
     }
@@ -248,7 +249,7 @@ int main() {
       if( flashtime == 50 )
         pollADC();
       flashtime++;
-      }
+      }*/
 
     //Do something else to give ADC select time to settle
     pollPlex();
