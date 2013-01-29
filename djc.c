@@ -13,7 +13,6 @@
 
 #define LWENABLE              (PORTD &= ~(1 << 6)) //former TOGGLEADC
 #define LWDISABLE             (PORTD |= (1 << 6)) //former TOGGLEADC
-#define ADCSELECT             (PORTD >> 6 & 1)
 #define SETPLEXADR(x)         (PORTC = x & 7)
 #define BUTTONPLEXSTATE(x)    (PINC >> (x+3) & 1)
 #define BUTTONSAVEDSTATE(p,n) (saveButton[p] >> n & 1)
@@ -30,6 +29,7 @@ uchar saveLED[4];
 int saveADC[16];
 uchar buffer[BUFSIZE];
 uchar encoderState;
+uchar adcChannel; //0 for ADC0, 1 for ADC1
 unsigned short bufferIndex;
 unsigned short bufferSendIndex;
 
@@ -82,6 +82,7 @@ void initMemory()
     buffer[bufferIndex] = 0;
   bufferIndex = 0;
   bufferSendIndex = 0;
+  adcChannel = 0;
 
   uchar i;
   for(i=0; i < 16; i++)
@@ -148,11 +149,11 @@ void usbFunctionWriteOut(uchar *data, uchar len)
     return;
   switch( data[0] ) {
   case 0x08 : saveLED[ledIndex/8] &= ~(1 << (ledIndex%8)); //Note-off
-              keyChange(data[2],true);
+              //keyChange(data[2],true);
               break;
   case 0x09 : saveLED[ledIndex/8] |= (1 << (ledIndex%8)); //Note-on
-              keyChange(data[2],false);
-              break;
+              //keyChange(data[2],false);
+              //break;
   }
 }
 
@@ -164,15 +165,19 @@ void pollPlex() //poll and update every (De-)Multiplexer based function
 {
   uchar address, plexnum;
   for(address = 0 ; address < 8 ; address++) { //walk plex address
-    SETPLEXADR(address); //our multiplexer is blazing fast, no need to wait...
+    SETPLEXADR(address);
 
-    LWENABLE;
+    //Prepare and start ADC
+    ADMUX = adcChannel | (1 << REFS0);
+    ADCSRA |= 1 << ADSC;
+
+    LWDISABLE;
     //Assign LED state instantly to reduce ghost-effects
     PORTB = 0xf0 & ((LEDSTATE(3,address) << 7)
                   | (LEDSTATE(2,address) << 6)
                   | (LEDSTATE(1,address) << 5)
                   | (LEDSTATE(0,address) << 4));
-    LWDISABLE;
+    LWENABLE;
 
     //Check buttons
     for(plexnum = 0; plexnum < 5; plexnum++)
@@ -180,15 +185,26 @@ void pollPlex() //poll and update every (De-)Multiplexer based function
         keyChange(address+8*plexnum+(SHIFT?40:0),BUTTONSAVEDSTATE(plexnum,address) == 0); //Send key change packet
         TOGGLESAVEDSTATE(plexnum,address);
       }
+
     //Encoder button
     if( ENCODERBUTTON != (encoderState & 1) ) {
       keyChange(82,!(encoderState & 1));
       encoderState ^= 1;
     }
+
+    //Finish ADC
+    int newvalue;
+    while( ADCSRA & (1 << ADSC) );
+    newvalue = ADC;
+    if( abs(newvalue - saveADC[address+8*adcChannel]) > HYSTERESIS ) {
+      saveADC[address+8*adcChannel] = newvalue;
+      adcChange(address+8*adcChannel,newvalue);
+    }
   }
+  adcChannel ^= 1;
 }
 
-int adc(uchar channel)
+/*int adc(uchar channel)
 {
   ADMUX = (channel & 7) | (1 << REFS0);
   ADCSRA |= 1 << ADSC;
@@ -210,7 +226,7 @@ void pollADC() {
       adcChange(adcIndex+offset,newvalue);
     }
   }
-}
+}*/
 
 ISR( INT1_vect ) {
   if( ENCODERB )
@@ -243,39 +259,7 @@ int main() {
       }
     }
 
-    //First ADC step
-    //pollADC();
-    //TOGGLEADC;
-    /*if( flashtime == 100 ) {
-      flashtime = 0;
-      TOGGLEADC;
-    }
-    else {
-      if( flashtime == 50 )
-        pollADC();
-      flashtime++;
-      }*/
-
-    //Do something else to give ADC select time to settle
     pollPlex();
-    _delay_ms(5);
-
-    //Second ADC step
-    //pollADC();
-    //TOGGLEADC;
-
-    //pollEncoder();
-
-    /*flashtime++;
-    if( flashtime >= 50 ) {
-      uchar index;
-      for(index = 0; index < 4; index++)
-        if( saveLED[index] )
-          saveLED[index] = 0;
-        else
-          saveLED[index] = 255;
-      flashtime = 0;
-    }*/
   }
 
 return(0);
