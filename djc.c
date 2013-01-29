@@ -11,8 +11,8 @@
 #define BUFSIZE 512
 #define HYSTERESIS 6
 
-#define LWENABLE              (PORTD &= ~(1 << 6)) //former TOGGLEADC
-#define LWDISABLE             (PORTD |= (1 << 6)) //former TOGGLEADC
+#define LWENABLE              (PORTD &= ~(1 << 6)) //former TOGGLEADC, now LatchWriteEnable
+#define LWDISABLE             (PORTD |= (1 << 6)) //former TOGGLEADC, now LatchWriteDisable
 #define SETPLEXADR(x)         (PORTC = x & 7)
 #define BUTTONPLEXSTATE(x)    (PINC >> (x+3) & 1)
 #define BUTTONSAVEDSTATE(p,n) (saveButton[p] >> n & 1)
@@ -171,7 +171,6 @@ void pollPlex() //poll and update every (De-)Multiplexer based function
     ADMUX = adcChannel | (1 << REFS0);
     ADCSRA |= 1 << ADSC;
 
-    LWDISABLE;
     //Assign LED state instantly to reduce ghost-effects
     PORTB = 0xf0 & ((LEDSTATE(3,address) << 7)
                   | (LEDSTATE(2,address) << 6)
@@ -194,8 +193,11 @@ void pollPlex() //poll and update every (De-)Multiplexer based function
 
     //Finish ADC
     int newvalue;
+    LWDISABLE;
     while( ADCSRA & (1 << ADSC) );
-    newvalue = ADC;
+    newvalue = 1023-ADC; //invert result to get correct direction
+    /*if( newvalue > 1024 )
+      newvalue = 1024;*/
     if( abs(newvalue - saveADC[address+8*adcChannel]) > HYSTERESIS ) {
       saveADC[address+8*adcChannel] = newvalue;
       adcChange(address+8*adcChannel,newvalue);
