@@ -14,24 +14,26 @@
 #define LWENABLE              (PORTD &= ~(1 << 6)) //former TOGGLEADC, now LatchWriteEnable
 #define LWDISABLE             (PORTD |= (1 << 6)) //former TOGGLEADC, now LatchWriteDisable
 #define SETPLEXADR(x)         (PORTC = x & 7)
-#define BUTTONPLEXSTATE(x)    (PINC >> (x+3) & 1)
-#define BUTTONSAVEDSTATE(p,n) (saveButton[p] >> n & 1)
+#define BUTTONPLEXSTATE(x)    (PINC >> (x+3) & 1) //returns the state of the button currently addressed on multiplexer x
+#define BUTTONSAVEDSTATE(p,n) (saveButton[p] >> n & 1) //returns the saved state of button n on multiplexer p
 #define TOGGLESAVEDSTATE(p,n) (saveButton[p] ^= (1 << n))
-#define LEDSTATE(p,n)         (saveLED[p] >> n & 1) //returns saved LED status of LED n on multiplexer p
+#define LEDSTATE(p,n)         (saveLed[p] >> n & 1) //returns saved LED status of LED n on multiplexer p
 #define ENCODERA              (PIND >> 3 & 1)
 #define ENCODERB              (PIND >> 4 & 1)
 #define ENCODERBUTTON         (PIND >> 5 & 1)
-#define SHIFT                 (PIND & 1)
+#define SHIFT                !(PIND & 1) //negative logic
 
-//typedef unsigned char uchar;
 uchar saveButton[5];
-uchar saveLED[4];
+uchar saveLed[4];
 int saveADC[16];
 uchar buffer[BUFSIZE];
 uchar encoderState;
 uchar adcChannel; //0 for ADC0, 1 for ADC1
 unsigned short bufferIndex;
 unsigned short bufferSendIndex;
+
+//masks my vumeter-leds     0     1     2     3     4     5     6     7     8
+const uchar vuLedMask[] = { 0, 0x80, 0xA0, 0xA8, 0xAA, 0xAB, 0xAF, 0xBF, 0xFF };
 
 /****************
  * INITIALIZERS *
@@ -40,7 +42,7 @@ unsigned short bufferSendIndex;
 void initHardware()
 {
   //Set in(0)/outputs(1)
-  DDRA = 0;
+  DDRA = 0b00000000; //only inputs on adc for now
   DDRB = 0b11110000; //pb0+1 jog1 pb2+3 jog2 pb4-7 LED outputs
   DDRC = 0b00000111; //pc0-2 multiplexer address, pc3-7 button poll input
   DDRD = 0b11000000; //pd0 shift key pd1+2 usb pd3-5 encoder pd6 led lash enable pd7 xfade center led
@@ -95,12 +97,26 @@ void initMemory()
   for(i=0; i < 5; i++)
     saveButton[i] = 0;
   for(i=0; i < 4; i++)
-    saveLED[i] = 0;
+    saveLed[i] = 0;
 }
 
 /********************
  * PACKET PREPARING *
  ********************/
+
+/* MIDI OUTGOING (MixxxCtl -> PC)
+ *   Note-On (0x09) / Note-Off (0x08) BUTTONS
+ *      0-39 = 0x00-0x27 buttons
+ *     40-79 = 0x28-0x4F buttons with shift pressed
+ *   System Control (0x0B) FADERS+POTS
+ *      0-15 = 0x00-0x0F Faders/Pots
+ *
+ * MIDI INCOMING (PC -> MixxxCtl)
+ *   Note-On (0x09) / Note-Off (0x08) INPUT -> LEDS
+ *     0-31 = 0x60-0x7F LEDs
+ *   System Control (0x0B) VU-LEDs at once
+ *     0 = 0x80 set VU-LEDs at once (9*VUBstate+VUAstate)
+ */
 
 void keyChange(uchar num, bool noteoff)
 {
@@ -118,7 +134,7 @@ void adcChange(uchar chan, int value)
   if( bufferIndex <= BUFSIZE-4 ) {
     buffer[bufferIndex+0] = 0x0b;
     buffer[bufferIndex+1] = 0xb0;
-    buffer[bufferIndex+2] = 64 + chan;
+    buffer[bufferIndex+2] = 0 + chan;
     buffer[bufferIndex+3] = value >> 3;
     bufferIndex += 4;
   }
@@ -149,16 +165,19 @@ void usbFunctionWriteOut(uchar *data, uchar len)
 {
   if( len < 3 )
     return;
-  uchar ledIndex = data[2]-96;
-  if( ledIndex > 31 )
-    return;
+  if( data[0] == 0x09 && data[3] == 0 ) //if velocity is 0, switch off the led even on Note-On
+    data[0]=0x08;
   switch( data[0] ) {
-  case 0x08 : saveLED[ledIndex/8] &= ~(1 << (ledIndex%8)); //Note-off
-              //keyChange(data[2],true);
+  case 0x08 : if( data[2] < 32 ) //we only have 32 leds
+                saveLed[data[2]/8] &= ~(1 << (data[2]%8)); //Note-off
               break;
-  case 0x09 : saveLED[ledIndex/8] |= (1 << (ledIndex%8)); //Note-on
-              //keyChange(data[2],false);
-              //break;
+  case 0x09 : if( data[2] < 32 ) //we only have 32 leds
+                saveLed[data[2]/8] |= (1 << (data[2]%8)); //Note-on
+              break;
+  case 0x0B : if( data[2] == 0 ) { //handle vu-leds-at-once
+                saveLed[2] = ~vuLedMask[8-data[3]%9];
+                saveLed[3] = vuLedMask[data[3]/9];
+              }
   }
 }
 
@@ -169,8 +188,8 @@ void usbFunctionWriteOut(uchar *data, uchar len)
 void pollPlex() //poll and update every (De-)Multiplexer based function
 {
   uchar address, plexnum;
-  for(address = 0 ; address < 8 ; address++) { //walk plex address
-    SETPLEXADR(address);
+  for(address = 0 ; address < 8 ; address++) {
+    SETPLEXADR(address); //walk plex address
 
     //Prepare and start ADC
     ADMUX = adcChannel | (1 << REFS0);
@@ -181,7 +200,7 @@ void pollPlex() //poll and update every (De-)Multiplexer based function
                   | (LEDSTATE(2,address) << 6)
                   | (LEDSTATE(1,address) << 5)
                   | (LEDSTATE(0,address) << 4));
-    LWENABLE;
+    LWENABLE; //everything is set, now the latches shall commit data
 
     //Check buttons
     for(plexnum = 0; plexnum < 5; plexnum++)
@@ -196,10 +215,11 @@ void pollPlex() //poll and update every (De-)Multiplexer based function
       encoderState ^= 1;
     }
 
+    LWDISABLE; //latches have certainly finished now
+
     //Finish ADC
     int32_t newvalue;
     uchar index = address+8*adcChannel;
-    LWDISABLE;
     while( ADCSRA & (1 << ADSC) );
     newvalue = 1023-ADC; //invert result to get correct direction
     if( abs(newvalue - saveADC[index]) > HYSTERESIS ) {
@@ -207,10 +227,10 @@ void pollPlex() //poll and update every (De-)Multiplexer based function
       adcChange(index,newvalue);
       if( index == 2 ) { //only for xfade
         newvalue = newvalue-512;
-        if( abs(newvalue) < HYSTERESIS )
+        if( abs(newvalue) < HYSTERESIS ) //completely disables led on centered xfade
           newvalue = 0;
         else
-          newvalue = (newvalue*newvalue)/1024+4;
+          newvalue = (newvalue*newvalue)/1024;
         if( newvalue > 255 ) newvalue = 255;
         if( newvalue < 0 ) newvalue = 0;
         OCR2A = newvalue;
@@ -219,30 +239,6 @@ void pollPlex() //poll and update every (De-)Multiplexer based function
   }
   adcChannel ^= 1;
 }
-
-/*int adc(uchar channel)
-{
-  ADMUX = (channel & 7) | (1 << REFS0);
-  ADCSRA |= 1 << ADSC;
-  while( ADCSRA & (1 << ADSC) );
-  return ADC;
-}
-
-void pollADC() {
-  uchar adcIndex;
-  uchar offset = ADCSELECT ? 8 : 0;
-  for(adcIndex = 0; adcIndex < 8; adcIndex++) {
-    int newvalue;
-    if( offset == 0 && adcIndex == 0 )
-      newvalue = 0; //workaround for missing pot
-    else
-      newvalue = adc(adcIndex);
-    if( abs(newvalue - saveADC[adcIndex+offset]) > HYSTERESIS ) {
-      saveADC[adcIndex+offset] = newvalue;
-      adcChange(adcIndex+offset,newvalue);
-    }
-  }
-}*/
 
 ISR( INT1_vect ) {
   if( ENCODERB )
@@ -260,12 +256,13 @@ int main() {
   initUsb();
   initMemory();
   sei();
-  short flashtime = 0;
 
   while( 1 ) {
     _delay_ms(5);
     wdt_reset();
     usbPoll();
+
+    //If possible, send out data from our buffer
     if( usbInterruptIsReady() && bufferIndex > 0 ) {
       usbSetInterrupt(buffer+bufferSendIndex, bufferIndex-bufferSendIndex > 8 ? 8 : bufferIndex-bufferSendIndex);
       bufferSendIndex += 8;
