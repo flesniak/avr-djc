@@ -8,7 +8,7 @@
 #include "usbdrv/usbdrv.h"
 #include "descriptors.h"
 
-#define BUFSIZE 512
+#define BUFSIZE 1024
 #define HYSTERESIS 6
 
 #define LWENABLE              (PORTD &= ~(1 << 6)) //former TOGGLEADC, now LatchWriteEnable
@@ -60,6 +60,11 @@ void initHardware()
   //Interrupt INT1 for encoder
   EICRA = (1 << ISC11) | (0 << ISC10); //Interrupt INT1 on falling edge
   EIMSK = (1 << INT1); //enable INT1
+
+  //PWM for xfade led
+  TCCR2A = 0b10000001; //phase-correct PWM with output compare match bit clearing
+  TCCR2B = 0b00000110; //prescaler 256 + 3rd PWM mode bit WGM22
+  OCR2A = 0;
 
   //Disable LED write
   LWDISABLE;
@@ -192,15 +197,24 @@ void pollPlex() //poll and update every (De-)Multiplexer based function
     }
 
     //Finish ADC
-    int newvalue;
+    int32_t newvalue;
+    uchar index = address+8*adcChannel;
     LWDISABLE;
     while( ADCSRA & (1 << ADSC) );
     newvalue = 1023-ADC; //invert result to get correct direction
-    /*if( newvalue > 1024 )
-      newvalue = 1024;*/
-    if( abs(newvalue - saveADC[address+8*adcChannel]) > HYSTERESIS ) {
-      saveADC[address+8*adcChannel] = newvalue;
-      adcChange(address+8*adcChannel,newvalue);
+    if( abs(newvalue - saveADC[index]) > HYSTERESIS ) {
+      saveADC[index] = newvalue;
+      adcChange(index,newvalue);
+      if( index == 2 ) { //only for xfade
+        newvalue = newvalue-512;
+        if( abs(newvalue) < HYSTERESIS )
+          newvalue = 0;
+        else
+          newvalue = (newvalue*newvalue)/1024+4;
+        if( newvalue > 255 ) newvalue = 255;
+        if( newvalue < 0 ) newvalue = 0;
+        OCR2A = newvalue;
+      }
     }
   }
   adcChannel ^= 1;
