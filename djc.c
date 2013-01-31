@@ -108,6 +108,7 @@ void initMemory()
  *   Note-On (0x09) / Note-Off (0x08) BUTTONS
  *      0-39 = 0x00-0x27 buttons
  *     40-79 = 0x28-0x4F buttons with shift pressed
+ *     80-82 = 0x50-0x52 encoder ccw/cw/button (cw(w) Note-On only)
  *   System Control (0x0B) FADERS+POTS
  *      0-15 = 0x00-0x0F Faders/Pots
  *
@@ -174,10 +175,17 @@ void usbFunctionWriteOut(uchar *data, uchar len)
   case 0x09 : if( data[2] < 32 ) //we only have 32 leds
                 saveLed[data[2]/8] |= (1 << (data[2]%8)); //Note-on
               break;
-  case 0x0B : if( data[2] == 0 ) { //handle vu-leds-at-once
-                saveLed[2] = ~vuLedMask[8-data[3]%9];
-                saveLed[3] = vuLedMask[data[3]/9];
+  case 0x0B : switch( data[2] ) {
+                case 0 : saveLed[2] = ~vuLedMask[8-data[3]%9];  //handle vu-leds-at-once
+                         saveLed[3] = vuLedMask[data[3]/9];
+                         break;
+                case 1 : saveLed[0] = data[3]; //change all leds at once
+                         saveLed[1] = data[3];
+                         saveLed[1] = data[3];
+                         saveLed[1] = data[3];
+                         break;
               }
+              break;
   }
 }
 
@@ -242,9 +250,9 @@ void pollPlex() //poll and update every (De-)Multiplexer based function
 
 ISR( INT1_vect ) {
   if( ENCODERB )
-    keyChange(80,true); //CW
+    keyChange(80,false); //CW
   else
-    keyChange(81,true); //CCW
+    keyChange(81,false); //CCW
 }
 
 /*************
