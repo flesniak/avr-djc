@@ -181,8 +181,12 @@ void usbFunctionWriteOut(uchar *data, uchar len)
                          break;
                 case 1 : saveLed[0] = data[3]; //change all leds at once
                          saveLed[1] = data[3];
-                         saveLed[1] = data[3];
-                         saveLed[1] = data[3];
+                         saveLed[2] = data[3];
+                         saveLed[3] = data[3];
+                         break;
+                case 2 : saveLed[2] = data[3];
+                         break;
+                case 3 : saveLed[3] = data[3];
                          break;
               }
               break;
@@ -195,6 +199,7 @@ void usbFunctionWriteOut(uchar *data, uchar len)
 
 void pollPlex() //poll and update every (De-)Multiplexer based function
 {
+  static uchar round = 0;
   uchar address, plexnum;
   for(address = 0 ; address < 8 ; address++) {
     SETPLEXADR(address); //walk plex address
@@ -203,11 +208,15 @@ void pollPlex() //poll and update every (De-)Multiplexer based function
     ADMUX = adcChannel | (1 << REFS0);
     ADCSRA |= 1 << ADSC;
 
-    //Assign LED state instantly to reduce ghost-effects
-    PORTB = 0xf0 & ((LEDSTATE(3,address) << 7)
+    //Assign LED state
+    PORTB = LEDSTATE(0,address) << 4 | LEDSTATE(1,address) << 5;
+    PORTB += (vuLedMask[saveLed[2]/4+(saveLed[2]%4 < round ? 1 : 0)] >> address & 1) << 6;
+//     PORTB += 6*(saveLed[address>3?3:2] < round ? 1 : 0);
+//     PORTB += 7*(saveLed[address>3?3:2] < round ? 1 : 0);
+    /*PORTB = 0xf0 & ((LEDSTATE(3,address) << 7)
                   | (LEDSTATE(2,address) << 6)
                   | (LEDSTATE(1,address) << 5)
-                  | (LEDSTATE(0,address) << 4));
+                  | (LEDSTATE(0,address) << 4));*/
     LWENABLE; //everything is set, now the latches shall commit data
 
     //Check buttons
@@ -246,6 +255,7 @@ void pollPlex() //poll and update every (De-)Multiplexer based function
     }
   }
   adcChannel ^= 1;
+  round++;
 }
 
 ISR( INT1_vect ) {
