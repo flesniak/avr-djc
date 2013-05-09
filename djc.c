@@ -209,8 +209,10 @@ void pollPlex() //poll and update every (De-)Multiplexer based function
     ADCSRA |= 1 << ADSC;
 
     //Assign LED state
-    PORTB = LEDSTATE(0,address) << 4 | LEDSTATE(1,address) << 5;
-    PORTB += (vuLedMask[saveLed[2]/4+(saveLed[2]%4 < round ? 1 : 0)] >> address & 1) << 6;
+    PORTB = LEDSTATE(0,address) << 4 | LEDSTATE(1,address) << 5; //set leds for multiplexer 0 & 1
+    //VU states range from 0-8. saveLed may be from 0 up to 4*8, states with mod4!=0 will be on sometimes
+    unsigned char currentVuIndex = saveLed[2]/4+(saveLed[2]%4 < round ? 1 : 0);
+    PORTB += (vuLedMask[currentVuIndex] >> address & 1) << 6;
 //     PORTB += 6*(saveLed[address>3?3:2] < round ? 1 : 0);
 //     PORTB += 7*(saveLed[address>3?3:2] < round ? 1 : 0);
     /*PORTB = 0xf0 & ((LEDSTATE(3,address) << 7)
@@ -255,7 +257,14 @@ void pollPlex() //poll and update every (De-)Multiplexer based function
     }
   }
   adcChannel ^= 1;
-  round++;
+  if( round == 3 )
+    round = 0;
+  else
+    round++;
+}
+
+void pollHarddisk() {
+  
 }
 
 ISR( INT1_vect ) {
