@@ -111,6 +111,7 @@ void initMemory()
  *     80-82 = 0x50-0x52 encoder ccw/cw/button (cw(w) Note-On only)
  *   System Control (0x0B) FADERS+POTS
  *      0-15 = 0x00-0x0F Faders/Pots
+ *     16-19 = 0x10-0x13 Jog-Wheels
  *
  * MIDI INCOMING (PC -> MixxxCtl)
  *   Note-On (0x09) / Note-Off (0x08) INPUT -> LEDS
@@ -263,8 +264,45 @@ void pollPlex() //poll and update every (De-)Multiplexer based function
     round++;
 }
 
+#define SCRATCH_HYSTERESIS 16
+
 void pollHarddisk() {
-  
+  static uchar state = 1; //0=lower half-wave 1=zero 2=upper half-wave
+
+  int32_t value1, value2;
+  ADMUX = 3 | (1 << REFS0);
+  ADCSRA |= 1 << ADSC;
+  while( ADCSRA & (1 << ADSC) );
+  value1 = ADC; //centered to zero
+  value1 -= 512;
+  ADMUX = 4 | (1 << REFS0);
+  ADCSRA |= 1 << ADSC;
+  while( ADCSRA & (1 << ADSC) );
+  value2 = ADC; //centered to zero
+  value2 -= 512;
+
+  //upper half-wave
+  if( value1 > HYSTERESIS ) {
+    if( state == 0 ) { //lower half-wave has already been here
+      state = 1;
+      if( value1 > value2 )
+        adcChange(0x10,1);
+      else
+        adcChange(0x10,-1);
+    } else
+      state = 2;
+  }
+  //lower half-wave
+  if( value1 < -1*HYSTERESIS ) {
+    if( state == 2 ) { //upper half-wave has already been here
+      state = 1;
+      if( value1 < value2 )
+        adcChange(0x10,1);
+      else
+        adcChange(0x10,-1);
+    else
+      state = 0;
+  }
 }
 
 ISR( INT1_vect ) {
@@ -300,6 +338,7 @@ int main() {
     }
 
     pollPlex();
+    pollHarddisk();
   }
 
 return(0);
