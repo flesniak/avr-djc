@@ -142,6 +142,17 @@ void adcChange(uchar chan, int value)
   }
 }
 
+void genericValueChange(uchar chan, uchar value)
+{
+  if( bufferIndex <= BUFSIZE-4 ) {
+    buffer[bufferIndex+0] = 0x0b;
+    buffer[bufferIndex+1] = 0xb0;
+    buffer[bufferIndex+2] = 0 + chan;
+    buffer[bufferIndex+3] = value;
+    bufferIndex += 4;
+  }
+}
+
 /****************************
  * USB MANAGEMENT FUNCTIONS *
  ****************************/
@@ -264,43 +275,45 @@ void pollPlex() //poll and update every (De-)Multiplexer based function
     round++;
 }
 
-#define SCRATCH_HYSTERESIS 16
+#define JOG_HYSTERESIS 8
+#define JOG_MIDI_CW  65
+#define JOG_MIDI_CCW 63
 
 void pollHarddisk() {
   static uchar state = 1; //0=lower half-wave 1=zero 2=upper half-wave
 
   int32_t value1, value2;
+  ADMUX = 2 | (1 << REFS0);
+  ADCSRA |= 1 << ADSC;
+  while( ADCSRA & (1 << ADSC) );
+  value1 = ADC;
+  value1 -= 512; //centered to zero
   ADMUX = 3 | (1 << REFS0);
   ADCSRA |= 1 << ADSC;
   while( ADCSRA & (1 << ADSC) );
-  value1 = ADC; //centered to zero
-  value1 -= 512;
-  ADMUX = 4 | (1 << REFS0);
-  ADCSRA |= 1 << ADSC;
-  while( ADCSRA & (1 << ADSC) );
-  value2 = ADC; //centered to zero
-  value2 -= 512;
+  value2 = ADC;
+  value2 -= 512; //centered to zero
 
   //upper half-wave
-  if( value1 > HYSTERESIS ) {
+  if( value1 > JOG_HYSTERESIS ) {
     if( state == 0 ) { //lower half-wave has already been here
       state = 1;
       if( value1 > value2 )
-        adcChange(0x10,1);
+        genericValueChange(0x10,JOG_MIDI_CW);
       else
-        adcChange(0x10,-1);
+        genericValueChange(0x10,JOG_MIDI_CCW);
     } else
       state = 2;
   }
   //lower half-wave
-  if( value1 < -1*HYSTERESIS ) {
+  if( value1 < -1*JOG_HYSTERESIS ) {
     if( state == 2 ) { //upper half-wave has already been here
       state = 1;
       if( value1 < value2 )
-        adcChange(0x10,1);
+        genericValueChange(0x10,JOG_MIDI_CW);
       else
-        adcChange(0x10,-1);
-    else
+        genericValueChange(0x10,JOG_MIDI_CCW);
+    } else
       state = 0;
   }
 }
