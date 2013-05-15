@@ -275,13 +275,14 @@ void pollPlex() //poll and update every (De-)Multiplexer based function
     round++;
 }
 
-#define JOG_HYSTERESIS 8
+#define JOG_HYSTERESIS 4
 #define JOG_MIDI_CW  65
 #define JOG_MIDI_CCW 63
 
 void pollHarddisk() {
-  static uchar state = 1; //0=lower half-wave 1=zero 2=upper half-wave
-
+  //static uchar state = 1; //0=lower half-wave 1=zero 2=upper half-wave
+  static uchar state = 0; //0=value1>value2 1=? 2=value1<value2
+  
   int32_t value1, value2;
   ADMUX = 2 | (1 << REFS0);
   ADCSRA |= 1 << ADSC;
@@ -295,7 +296,7 @@ void pollHarddisk() {
   value2 -= 512; //centered to zero
 
   //upper half-wave
-  if( value1 > JOG_HYSTERESIS ) {
+  /*if( value1 > JOG_HYSTERESIS ) {
     if( state == 0 ) { //lower half-wave has already been here
       state = 1;
       if( value1 > value2 )
@@ -315,6 +316,20 @@ void pollHarddisk() {
         genericValueChange(0x10,JOG_MIDI_CCW);
     } else
       state = 0;
+  }*/
+
+  if( value1 > value2+JOG_HYSTERESIS && state == 2 ) {
+    if( (value1+value2) > 0 )
+      genericValueChange(0x10,JOG_MIDI_CCW);
+    else
+      genericValueChange(0x10,JOG_MIDI_CW);
+    state = 0;
+  } else if ( state == 0 && value1 < value2-JOG_HYSTERESIS ) {
+    if( (value1+value2) < 0 )
+      genericValueChange(0x10,JOG_MIDI_CCW);
+    else
+      genericValueChange(0x10,JOG_MIDI_CW);
+    state = 2;
   }
 }
 
