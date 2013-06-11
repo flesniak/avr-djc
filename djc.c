@@ -224,13 +224,6 @@ void pollPlex() //poll and update every (De-)Multiplexer based function
     PORTB = LEDSTATE(0,address) << 4 | LEDSTATE(1,address) << 5; //set leds for multiplexer 0 & 1
     //VU states range from 0-8. saveLed may be from 0 up to 4*8, states with mod4!=0 will be on sometimes
     unsigned char currentVuIndex = saveLed[2]/4+(saveLed[2]%4 < round ? 1 : 0);
-    PORTB += (vuLedMask[currentVuIndex] >> address & 1) << 6;
-//     PORTB += 6*(saveLed[address>3?3:2] < round ? 1 : 0);
-//     PORTB += 7*(saveLed[address>3?3:2] < round ? 1 : 0);
-    /*PORTB = 0xf0 & ((LEDSTATE(3,address) << 7)
-                  | (LEDSTATE(2,address) << 6)
-                  | (LEDSTATE(1,address) << 5)
-                  | (LEDSTATE(0,address) << 4));*/
     LWENABLE; //everything is set, now the latches shall commit data
 
     //Check buttons
@@ -280,7 +273,6 @@ void pollPlex() //poll and update every (De-)Multiplexer based function
 #define JOG_MIDI_CCW 63
 
 void pollHarddisk() {
-  //static uchar state = 1; //0=lower half-wave 1=zero 2=upper half-wave
   static uchar state = 0; //0=value1>value2 1=? 2=value1<value2
   
   int32_t value1, value2;
@@ -294,30 +286,7 @@ void pollHarddisk() {
   while( ADCSRA & (1 << ADSC) );
   value2 = ADC;
   value2 -= 512; //centered to zero
-
-  //upper half-wave
-  /*if( value1 > JOG_HYSTERESIS ) {
-    if( state == 0 ) { //lower half-wave has already been here
-      state = 1;
-      if( value1 > value2 )
-        genericValueChange(0x10,JOG_MIDI_CW);
-      else
-        genericValueChange(0x10,JOG_MIDI_CCW);
-    } else
-      state = 2;
-  }
-  //lower half-wave
-  if( value1 < -1*JOG_HYSTERESIS ) {
-    if( state == 2 ) { //upper half-wave has already been here
-      state = 1;
-      if( value1 < value2 )
-        genericValueChange(0x10,JOG_MIDI_CW);
-      else
-        genericValueChange(0x10,JOG_MIDI_CCW);
-    } else
-      state = 0;
-  }*/
-
+  
   if( value1 > value2+JOG_HYSTERESIS && state == 2 ) {
     if( (value1+value2) > 0 )
       genericValueChange(0x10,JOG_MIDI_CCW);
