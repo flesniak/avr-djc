@@ -1,5 +1,5 @@
 //MIDI Adapter Device Descriptor (MIDI10.pdf Appendix B.1)
-static PROGMEM char deviceDescrMIDI[] = {
+static const PROGMEM char deviceDescrMIDI[] = {
 	18,			/* length of descriptor in bytes */
 	1,			/* descriptor type */
 	0x10, 0x01,		/* USB version supported */
@@ -17,7 +17,7 @@ static PROGMEM char deviceDescrMIDI[] = {
 };
 
 //MIDI Adapter Configuration Descriptor (MIDI10.pdf Appendix B.2)
-static PROGMEM char configDescrMIDI[] = {
+static const PROGMEM char configDescrMIDI[] = {
 	9,			/* sizeof(usbDescrConfig): length of descriptor in bytes */
 	USBDESCR_CONFIG,	/* descriptor type 2: CONFIGURATION*/
 	101, 0,			/* total length of data returned (including inlined descriptors) */

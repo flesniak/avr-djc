@@ -335,7 +335,7 @@ int main() {
     }
 
     pollPlex();
-    pollHarddisk();
+    //pollHarddisk();
   }
 
 return(0);
