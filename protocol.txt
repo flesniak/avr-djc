@@ -1,0 +1,35 @@
+MIDI OUTGOING (MixxxCtl -> PC)
+  Note-On (0x90) / Note-Off (0x08) BUTTONS
+     0-39 = 0x00-0x27 buttons
+    40-79 = 0x28-0x4F buttons with shift pressed
+       80 =      0x50 encoder button
+  System Control (0x80) FADERS+POTS
+     0-15 = 0x00-0x0F Faders/Pots
+    16-17 = 0x10-0x11 Jog-Wheels (0x01 forward, 0x7F backward)
+       18 =      0x12 encoder (cw 0x01, ccw 0x7F)
+MIDI INCOMING (PC -> MixxxCtl)
+  Note-On (0x90) / Note-Off (0x80)
+    0-31 = 0x60-0x7F Enable/disable LEDs (does not change integrated vu control state, enabled by default!)
+  System Control (0x0B)
+    0 = 0x00 set left VU directly, disables integrated vu control (see below)
+    1 = 0x01 set right VU directly, disables integrated vu control (see below)
+    2 = 0x02 set left VU level (0-32), enable integrated vu control
+    3 = 0x03 set right VU level (0-32), enable integrated vu control
+    special to set both VU meters:
+    0x60 OR upper 5 bits of left VU state | lower 1 bit of left VU OR 6 bits of right VU state
+  System Exclusive (0xF0) ATTENTION: every 8th byte and the last byte contains the 8th bit of the preceding data bytes!
+    0 = 0x00 set all leds (4+1 bytes set leds 0-31 at once), disables integrated vu control
+    1 = 0x01 set non-VU leds (2+1 bytes set leds 0-15 at once), does not change integrated vu control
+    2 = 0x02 set VU leds (2 bytes set VU state (0-32), see below), enables integrated vu control
+
+VU UPDATE:
+9 VU states (off + 8 leds)
+additionally 4 pwm states per on-state -> 1 (off) + 4*8 states = 33 states (0-32) -> needs 6 bits
+0 = VU off
+1 = lowest LED, brightness 1 (lowest)
+2 = lowest LED, brightness 2
+3 = lowest LED, brightness 3
+4 = lowest LED, brightness 4 (full)
+5 = lowest LED full, second lowest LED brightness 1
+ ...
+32 = all LEDs full brightness
