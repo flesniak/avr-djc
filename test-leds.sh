@@ -8,8 +8,9 @@ fi
 
 if [ "$2" == "" ]
 then DELAY="1000000" #default delay 1s
-else DELAY="$[$1*1000]"
+else DELAY=$(($2*1000))
 fi
+echo $DELAY
 
 WALK="TRUE" #FALSE=all leds flash constantly; TRUE=test leds consecutively
 

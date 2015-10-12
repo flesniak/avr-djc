@@ -26,10 +26,10 @@ VU UPDATE:
 9 VU states (off + 8 leds)
 additionally 4 pwm states per on-state -> 1 (off) + 4*8 states = 33 states (0-32) -> needs 6 bits
 0 = VU off
-1 = lowest LED, brightness 1 (lowest)
-2 = lowest LED, brightness 2
-3 = lowest LED, brightness 3
-4 = lowest LED, brightness 4 (full)
+1 = lowest LED brightness 1 (lowest)
+2 = lowest LED brightness 2
+3 = lowest LED brightness 3
+4 = lowest LED brightness 4 (full)
 5 = lowest LED full, second lowest LED brightness 1
  ...
 32 = all LEDs full brightness
