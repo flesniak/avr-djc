@@ -49,7 +49,17 @@ MixxxCtl.jog = function(channel, value)
   if (jogInvert)
     value = (value==0x7F)?0x01:0x7F;
   var direction = (value==0x01) ? 1 : -1;
-  engine.setValue(channel, "jog", direction);
+  if (engine.getValue(channel, "play"))
+    engine.setValue(channel, "jog", direction);
+  else {
+     var pp = engine.getValue(channel, "playposition");
+     var samples = engine.getValue(channel, "track_samples");
+//     var cur_samples = pp*samples;
+//     var new_samples = cur_samples+direction*1000;
+//     var new_pp = new_samples/samples;
+//     print("pp "+pp+" samples "+samples+" cur "+cur_samples+" new_samples "+new_samples+" new_pp "+new_pp);
+    engine.setValue(channel, "playposition", pp+1000*direction/samples);
+  }
 }
 
 MixxxCtl.updateRateSliderLED = function(channel, rate)

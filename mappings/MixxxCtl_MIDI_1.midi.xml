@@ -293,7 +293,7 @@
             </control>
 <!-- CHANNEL 1 MISC -->
             <control>
-                <group>[Channel2]</group>
+                <group>[Channel1]</group>
                 <key>quantize</key>
                 <status>0x90</status>
                 <midino>0x4C</midino>
@@ -680,7 +680,7 @@
                 <group>[Channel2]</group>
                 <key>cue_gotoandplay</key>
                 <status>0x90</status>
-                <midino>0x2C</midino>
+                <midino>0x3C</midino>
                 <options>
                     <button/>
                 </options>
