@@ -6,12 +6,272 @@
             <file functionprefix="MixxxCtl" filename="MixxxCtl-scripts.js"/>
         </scriptfiles>
         <controls>
-<!-- MASTER -->
+            <control>
+                <group>[Channel2]</group>
+                <key>hotcue_4_activate</key>
+                <status>0x90</status>
+                <midino>0x18</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>hotcue_4_activate</key>
+                <status>0x90</status>
+                <midino>0x02</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>rate_temp_up</key>
+                <status>0x80</status>
+                <midino>0x15</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
             <control>
                 <group>[Master]</group>
                 <key>headMix</key>
                 <status>0xB0</status>
                 <midino>0x07</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>beatjump_8_forward</key>
+                <status>0x90</status>
+                <midino>0x2D</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>beatloop_1_toggle</key>
+                <status>0x90</status>
+                <midino>0x17</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>hotcue_3_activate</key>
+                <status>0x90</status>
+                <midino>0x01</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>cue_default</key>
+                <status>0x80</status>
+                <midino>0x14</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[EqualizerRack1_[Channel2]_Effect1]</group>
+                <key>parameter1</key>
+                <status>0xB0</status>
+                <midino>0x06</midino>
+                <options>
+                    <soft-takeover/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>loop_double</key>
+                <status>0x90</status>
+                <midino>0x42</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>start</key>
+                <status>0x90</status>
+                <midino>0x2C</midino>
+                <options>
+                    <button/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>rate_temp_down</key>
+                <status>0x90</status>
+                <midino>0x16</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>beatlooproll_0.125_activate</key>
+                <status>0x80</status>
+                <midino>0x3F</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>beatloop_1_toggle</key>
+                <status>0x90</status>
+                <midino>0x00</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>hotcue_3_activate</key>
+                <status>0x80</status>
+                <midino>0x13</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>pregain</key>
+                <status>0xB0</status>
+                <midino>0x05</midino>
+                <options>
+                    <soft-takeover/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>loop_halve</key>
+                <status>0x90</status>
+                <midino>0x41</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>hotcue_2_clear</key>
+                <status>0x90</status>
+                <midino>0x2B</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>rate_temp_up</key>
+                <status>0x90</status>
+                <midino>0x15</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>beatlooproll_0.125_activate</key>
+                <status>0x80</status>
+                <midino>0x28</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>hotcue_1_activate</key>
+                <status>0x80</status>
+                <midino>0x12</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[QuickEffectRack1_[Channel2]]</group>
+                <key>super1</key>
+                <status>0xB0</status>
+                <midino>0x04</midino>
+                <options>
+                    <soft-takeover/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>hotcue_4_clear</key>
+                <status>0x90</status>
+                <midino>0x40</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>hotcue_4_clear</key>
+                <status>0x90</status>
+                <midino>0x2A</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>cue_default</key>
+                <status>0x90</status>
+                <midino>0x14</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>hotcue_2_activate</key>
+                <status>0x80</status>
+                <midino>0x11</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[EqualizerRack1_[Channel2]_Effect1]</group>
+                <key>parameter3</key>
+                <status>0xB0</status>
+                <midino>0x03</midino>
+                <options>
+                    <soft-takeover/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>beatlooproll_0.125_activate</key>
+                <status>0x90</status>
+                <midino>0x3F</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>hotcue_3_clear</key>
+                <status>0x90</status>
+                <midino>0x29</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>hotcue_3_activate</key>
+                <status>0x90</status>
+                <midino>0x13</midino>
                 <options>
                     <normal/>
                 </options>
@@ -27,94 +287,48 @@
                 </options>
             </control>
             <control>
-                <group>[Playlist]</group>
-                <key>SelectTrackKnob</key>
-                <status>0xB0</status>
+                <group>[Channel2]</group>
+                <key>beatjump_8_backward</key>
+                <status>0x90</status>
+                <midino>0x3E</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>beatlooproll_0.125_activate</key>
+                <status>0x90</status>
+                <midino>0x28</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>hotcue_1_activate</key>
+                <status>0x90</status>
                 <midino>0x12</midino>
                 <options>
-                    <selectknob/>
-                </options>
-            </control>
-            <control>
-                <group>[Playlist]</group>
-                <key>LoadSelectedIntoFirstStopped</key>
-                <status>0x90</status>
-                <midino>0x50</midino>
-                <options>
-                    <button/>
-                </options>
-            </control>
-<!-- CHANNEL 1 MIXER -->
-            <control>
-                <group>[Channel1]</group>
-                <key>volume</key>
-                <status>0xB0</status>
-                <midino>0x08</midino>
-                <options>
-                    <soft-takeover/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>pfl</key>
-                <status>0x90</status>
-                <midino>0x24</midino>
-                <options>
-                    <button/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>pregain</key>
-                <status>0xB0</status>
-                <midino>0x0D</midino>
-                <options>
-                    <soft-takeover/>
-                </options>
-            </control>
-            <control>
-                <group>[EqualizerRack1_[Channel1]_Effect1]</group>
-                <key>parameter3</key>
-                <status>0xB0</status>
-                <midino>0x0B</midino>
-                <options>
-                    <soft-takeover/>
-                </options>
-            </control>
-            <control>
-                <group>[EqualizerRack1_[Channel1]_Effect1]</group>
-                <key>button_parameter3</key>
-                <status>0x90</status>
-                <midino>0x23</midino>
-                <options>
                     <normal/>
                 </options>
             </control>
             <control>
-                <group>[EqualizerRack1_[Channel1]_Effect1]</group>
+                <group>[EqualizerRack1_[Channel2]_Effect1]</group>
                 <key>parameter2</key>
                 <status>0xB0</status>
-                <midino>0x09</midino>
+                <midino>0x01</midino>
                 <options>
                     <soft-takeover/>
                 </options>
             </control>
             <control>
-                <group>[EqualizerRack1_[Channel1]_Effect1]</group>
-                <key>button_parameter2</key>
+                <group>[Channel2]</group>
+                <key>beatjump_8_forward</key>
                 <status>0x90</status>
-                <midino>0x25</midino>
+                <midino>0x3D</midino>
                 <options>
                     <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[EqualizerRack1_[Channel1]_Effect1]</group>
-                <key>parameter1</key>
-                <status>0xB0</status>
-                <midino>0x0E</midino>
-                <options>
-                    <soft-takeover/>
                 </options>
             </control>
             <control>
@@ -127,419 +341,14 @@
                 </options>
             </control>
             <control>
-                <group>[QuickEffectRack1_[Channel1]]</group>
-                <key>super1</key>
-                <status>0xB0</status>
-                <midino>0x0C</midino>
-                <options>
-                    <soft-takeover/>
-                </options>
-            </control>
-            <control>
-                <group>[QuickEffectRack1_[Channel1]_Effect1]</group>
-                <key>enabled</key>
-                <status>0x90</status>
-                <midino>0x1F</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-<!-- CHANNEL 1 MAIN -->
-            <control>
-                <group>[Channel1]</group>
-                <key>play</key>
-                <status>0x90</status>
-                <midino>0x04</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>cue_default</key>
-                <status>0x80</status>
-                <midino>0x06</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>cue_default</key>
-                <status>0x90</status>
-                <midino>0x06</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>start</key>
-                <status>0x90</status>
-                <midino>0x2C</midino>
-                <options>
-                    <button/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>cue_gotoandplay</key>
-                <status>0x90</status>
-                <midino>0x2E</midino>
-                <options>
-                    <button/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>MixxxCtl.incomingData</key>
-                <status>0xB0</status>
-                <midino>0x10</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-<!-- CHANNEL 1 LOOP -->
-            <control>
-                <group>[Channel1]</group>
-                <key>loop_in</key>
-                <status>0x90</status>
-                <midino>0x0B</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>loop_out</key>
-                <status>0x90</status>
-                <midino>0x0A</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>reloop_exit</key>
-                <status>0x90</status>
-                <midino>0x09</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>loop_halve</key>
-                <status>0x90</status>
-                <midino>0x33</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>loop_double</key>
-                <status>0x90</status>
-                <midino>0x32</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-<!-- CHANNEL 1 RATE -->
-            <control>
-                <group>[Channel1]</group>
-                <key>rate</key>
-                <status>0xB0</status>
-                <midino>0x0A</midino>
-                <options>
-                    <soft-takeover/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>rate_temp_down</key>
-                <status>0x80</status>
-                <midino>0x07</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>rate_temp_down</key>
-                <status>0x90</status>
-                <midino>0x07</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>rate_temp_up</key>
-                <status>0x80</status>
-                <midino>0x05</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>rate_temp_up</key>
-                <status>0x90</status>
-                <midino>0x05</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-<!-- CHANNEL 1 MISC -->
-            <control>
-                <group>[Channel1]</group>
-                <key>quantize</key>
-                <status>0x90</status>
-                <midino>0x4C</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-<!-- CHANNEL 1 HOTCUES -->
-            <control>
-                <group>[Channel1]</group>
-                <key>hotcue_1_activate</key>
-                <status>0x80</status>
-                <midino>0x08</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>hotcue_1_activate</key>
-                <status>0x90</status>
-                <midino>0x08</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>hotcue_2_activate</key>
-                <status>0x80</status>
-                <midino>0x03</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
+                <group>[Channel2]</group>
                 <key>hotcue_2_activate</key>
                 <status>0x90</status>
-                <midino>0x03</midino>
+                <midino>0x11</midino>
                 <options>
                     <normal/>
                 </options>
             </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>hotcue_3_activate</key>
-                <status>0x80</status>
-                <midino>0x01</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>hotcue_3_activate</key>
-                <status>0x90</status>
-                <midino>0x01</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>hotcue_4_activate</key>
-                <status>0x80</status>
-                <midino>0x02</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>hotcue_4_activate</key>
-                <status>0x90</status>
-                <midino>0x02</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>hotcue_1_clear</key>
-                <status>0x90</status>
-                <midino>0x30</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>hotcue_2_clear</key>
-                <status>0x90</status>
-                <midino>0x2B</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>hotcue_3_clear</key>
-                <status>0x90</status>
-                <midino>0x29</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>hotcue_4_clear</key>
-                <status>0x90</status>
-                <midino>0x2A</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-<!-- CHANNEL 1 BEATLOOP -->
-            <control>
-                <group>[Channel1]</group>
-                <key>beatloop_1_toggle</key>
-                <status>0x90</status>
-                <midino>0x00</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>beatloop_2_toggle</key>
-                <status>0x90</status>
-                <midino>0x0D</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>beatloop_4_toggle</key>
-                <status>0x90</status>
-                <midino>0x0E</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>beatloop_8_toggle</key>
-                <status>0x90</status>
-                <midino>0x0C</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-<!-- CHANNEL 1 BEATLOOPROLL -->
-            <control>
-                <group>[Channel1]</group>
-                <key>beatlooproll_0.125_activate</key>
-                <status>0x80</status>
-                <midino>0x28</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>beatlooproll_0.125_activate</key>
-                <status>0x90</status>
-                <midino>0x28</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>beatlooproll_0.25_activate</key>
-                <status>0x80</status>
-                <midino>0x35</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>beatlooproll_0.25_activate</key>
-                <status>0x90</status>
-                <midino>0x35</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>beatlooproll_0.5_activate</key>
-                <status>0x80</status>
-                <midino>0x36</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>beatlooproll_0.5_activate</key>
-                <status>0x90</status>
-                <midino>0x36</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>beatlooproll_1_activate</key>
-                <status>0x80</status>
-                <midino>0x34</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>beatlooproll_1_activate</key>
-                <status>0x90</status>
-                <midino>0x34</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-<!-- CHANNEL 1 BEATJUMP -->
-            <control>
-                <group>[Channel1]</group>
-                <key>beatjump_8_forward</key>
-                <status>0x90</status>
-                <midino>0x2D</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>beatjump_8_backward</key>
-                <status>0x90</status>
-                <midino>0x2F</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-<!-- CHANNEL 2 MIXER -->
             <control>
                 <group>[Channel2]</group>
                 <key>volume</key>
@@ -547,133 +356,6 @@
                 <midino>0x00</midino>
                 <options>
                     <soft-takeover/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel2]</group>
-                <key>pfl</key>
-                <status>0x90</status>
-                <midino>0x20</midino>
-                <options>
-                    <button/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel2]</group>
-                <key>pregain</key>
-                <status>0xB0</status>
-                <midino>0x05</midino>
-                <options>
-                    <soft-takeover/>
-                </options>
-            </control>
-            <control>
-                <group>[EqualizerRack1_[Channel2]_Effect1]</group>
-                <key>parameter3</key>
-                <status>0xB0</status>
-                <midino>0x03</midino>
-                <options>
-                    <soft-takeover/>
-                </options>
-            </control>
-            <control>
-                <group>[EqualizerRack1_[Channel2]_Effect1]</group>
-                <key>button_parameter3</key>
-                <status>0x90</status>
-                <midino>0x21</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[EqualizerRack1_[Channel2]_Effect1]</group>
-                <key>parameter2</key>
-                <status>0xB0</status>
-                <midino>0x01</midino>
-                <options>
-                    <soft-takeover/>
-                </options>
-            </control>
-            <control>
-                <group>[EqualizerRack1_[Channel2]_Effect1]</group>
-                <key>button_parameter2</key>
-                <status>0x90</status>
-                <midino>0x22</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[EqualizerRack1_[Channel2]_Effect1]</group>
-                <key>parameter1</key>
-                <status>0xB0</status>
-                <midino>0x06</midino>
-                <options>
-                    <soft-takeover/>
-                </options>
-            </control>
-            <control>
-                <group>[EqualizerRack1_[Channel2]_Effect1]</group>
-                <key>button_parameter1</key>
-                <status>0x90</status>
-                <midino>0x26</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[QuickEffectRack1_[Channel2]]</group>
-                <key>super1</key>
-                <status>0xB0</status>
-                <midino>0x04</midino>
-                <options>
-                    <soft-takeover/>
-                </options>
-            </control>
-            <control>
-                <group>[QuickEffectRack1_[Channel2]_Effect1]</group>
-                <key>enabled</key>
-                <status>0x90</status>
-                <midino>0x1B</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-<!-- CHANNEL 2 MAIN -->
-            <control>
-                <group>[Channel2]</group>
-                <key>play</key>
-                <status>0x90</status>
-                <midino>0x0F</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel2]</group>
-                <key>cue_default</key>
-                <status>0x80</status>
-                <midino>0x14</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel2]</group>
-                <key>cue_default</key>
-                <status>0x90</status>
-                <midino>0x14</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel2]</group>
-                <key>start</key>
-                <status>0x90</status>
-                <midino>0x37</midino>
-                <options>
-                    <button/>
                 </options>
             </control>
             <control>
@@ -686,29 +368,10 @@
                 </options>
             </control>
             <control>
-                <group>[Channel2]</group>
-                <key>MixxxCtl.incomingData</key>
-                <status>0xB0</status>
-                <midino>0x11</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-<!-- CHANNEL 2 LOOP -->
-            <control>
-                <group>[Channel2]</group>
-                <key>loop_in</key>
+                <group>[EqualizerRack1_[Channel2]_Effect1]</group>
+                <key>button_parameter1</key>
                 <status>0x90</status>
-                <midino>0x19</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel2]</group>
-                <key>loop_out</key>
-                <status>0x90</status>
-                <midino>0x1A</midino>
+                <midino>0x26</midino>
                 <options>
                     <normal/>
                 </options>
@@ -718,171 +381,6 @@
                 <key>reloop_exit</key>
                 <status>0x90</status>
                 <midino>0x10</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel2]</group>
-                <key>loop_halve</key>
-                <status>0x90</status>
-                <midino>0x41</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel2]</group>
-                <key>loop_double</key>
-                <status>0x90</status>
-                <midino>0x42</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-<!-- CHANNEL 2 RATE -->
-            <control>
-                <group>[Channel2]</group>
-                <key>rate</key>
-                <status>0xB0</status>
-                <midino>0x0F</midino>
-                <options>
-                    <soft-takeover/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel2]</group>
-                <key>rate_temp_down</key>
-                <status>0x80</status>
-                <midino>0x16</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel2]</group>
-                <key>rate_temp_down</key>
-                <status>0x90</status>
-                <midino>0x16</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel2]</group>
-                <key>rate_temp_up</key>
-                <status>0x80</status>
-                <midino>0x15</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel2]</group>
-                <key>rate_temp_up</key>
-                <status>0x90</status>
-                <midino>0x15</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-<!-- CHANNEL 2 MISC -->
-            <control>
-                <group>[Channel2]</group>
-                <key>quantize</key>
-                <status>0x90</status>
-                <midino>0x48</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-<!-- CHANNEL 2 HOTCUES -->
-            <control>
-                <group>[Channel2]</group>
-                <key>hotcue_1_activate</key>
-                <status>0x80</status>
-                <midino>0x12</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel2]</group>
-                <key>hotcue_1_activate</key>
-                <status>0x90</status>
-                <midino>0x12</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel2]</group>
-                <key>hotcue_2_activate</key>
-                <status>0x80</status>
-                <midino>0x11</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel2]</group>
-                <key>hotcue_2_activate</key>
-                <status>0x90</status>
-                <midino>0x11</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel2]</group>
-                <key>hotcue_3_activate</key>
-                <status>0x80</status>
-                <midino>0x13</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel2]</group>
-                <key>hotcue_3_activate</key>
-                <status>0x90</status>
-                <midino>0x13</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel2]</group>
-                <key>hotcue_4_activate</key>
-                <status>0x80</status>
-                <midino>0x18</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel2]</group>
-                <key>hotcue_4_activate</key>
-                <status>0x90</status>
-                <midino>0x18</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel2]</group>
-                <key>hotcue_1_clear</key>
-                <status>0x90</status>
-                <midino>0x3A</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel2]</group>
-                <key>hotcue_2_clear</key>
-                <status>0x90</status>
-                <midino>0x39</midino>
                 <options>
                     <normal/>
                 </options>
@@ -897,20 +395,298 @@
                 </options>
             </control>
             <control>
-                <group>[Channel2]</group>
-                <key>hotcue_4_clear</key>
+                <group>[EqualizerRack1_[Channel1]_Effect1]</group>
+                <key>button_parameter2</key>
                 <status>0x90</status>
-                <midino>0x40</midino>
+                <midino>0x25</midino>
                 <options>
                     <normal/>
                 </options>
             </control>
-<!-- CHANNEL 2 BEATLOOP -->
             <control>
                 <group>[Channel2]</group>
-                <key>beatloop_1_toggle</key>
+                <key>play</key>
                 <status>0x90</status>
-                <midino>0x17</midino>
+                <midino>0x0F</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Playlist]</group>
+                <key>LoadSelectedIntoFirstStopped</key>
+                <status>0x90</status>
+                <midino>0x50</midino>
+                <options>
+                    <button/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>hotcue_1_clear</key>
+                <status>0x90</status>
+                <midino>0x3A</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>pfl</key>
+                <status>0x90</status>
+                <midino>0x24</midino>
+                <options>
+                    <button/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>beatloop_4_toggle</key>
+                <status>0x90</status>
+                <midino>0x0E</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>hotcue_2_clear</key>
+                <status>0x90</status>
+                <midino>0x39</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[EqualizerRack1_[Channel1]_Effect1]</group>
+                <key>button_parameter3</key>
+                <status>0x90</status>
+                <midino>0x23</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>beatlooproll_0.5_activate</key>
+                <status>0x80</status>
+                <midino>0x36</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>beatloop_2_toggle</key>
+                <status>0x90</status>
+                <midino>0x0D</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Playlist]</group>
+                <key>SelectTrackKnob</key>
+                <status>0xB0</status>
+                <midino>0x12</midino>
+                <options>
+                    <selectknob/>
+                </options>
+            </control>
+            <control>
+                <group>[EqualizerRack1_[Channel2]_Effect1]</group>
+                <key>button_parameter2</key>
+                <status>0x90</status>
+                <midino>0x22</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>beatloop_8_toggle</key>
+                <status>0x90</status>
+                <midino>0x0C</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>beatlooproll_0.25_activate</key>
+                <status>0x80</status>
+                <midino>0x35</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>MixxxCtl.incomingData</key>
+                <status>0xB0</status>
+                <midino>0x11</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>start</key>
+                <status>0x90</status>
+                <midino>0x37</midino>
+                <options>
+                    <button/>
+                </options>
+            </control>
+            <control>
+                <group>[EqualizerRack1_[Channel2]_Effect1]</group>
+                <key>button_parameter3</key>
+                <status>0x90</status>
+                <midino>0x21</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>loop_in</key>
+                <status>0x90</status>
+                <midino>0x0B</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>beatlooproll_1_activate</key>
+                <status>0x80</status>
+                <midino>0x34</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>hotcue_1_activate</key>
+                <status>0x80</status>
+                <midino>0x08</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>MixxxCtl.incomingData</key>
+                <status>0xB0</status>
+                <midino>0x10</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>quantize</key>
+                <status>0x90</status>
+                <midino>0x4C</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>beatlooproll_0.5_activate</key>
+                <status>0x90</status>
+                <midino>0x36</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>pfl</key>
+                <status>0x90</status>
+                <midino>0x20</midino>
+                <options>
+                    <button/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>loop_out</key>
+                <status>0x90</status>
+                <midino>0x0A</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>rate_temp_down</key>
+                <status>0x80</status>
+                <midino>0x07</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>rate</key>
+                <status>0xB0</status>
+                <midino>0x0F</midino>
+                <options>
+                    <soft-takeover/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>beatlooproll_0.25_activate</key>
+                <status>0x90</status>
+                <midino>0x35</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[QuickEffectRack1_[Channel1]_Effect1]</group>
+                <key>enabled</key>
+                <status>0x90</status>
+                <midino>0x1F</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>reloop_exit</key>
+                <status>0x90</status>
+                <midino>0x09</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[EqualizerRack1_[Channel1]_Effect1]</group>
+                <key>parameter1</key>
+                <status>0xB0</status>
+                <midino>0x0E</midino>
+                <options>
+                    <soft-takeover/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>cue_default</key>
+                <status>0x80</status>
+                <midino>0x06</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>beatlooproll_1_activate</key>
+                <status>0x90</status>
+                <midino>0x34</midino>
                 <options>
                     <normal/>
                 </options>
@@ -920,6 +696,96 @@
                 <key>beatloop_2_toggle</key>
                 <status>0x90</status>
                 <midino>0x1E</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>hotcue_1_activate</key>
+                <status>0x90</status>
+                <midino>0x08</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>rate_temp_up</key>
+                <status>0x80</status>
+                <midino>0x05</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>pregain</key>
+                <status>0xB0</status>
+                <midino>0x0D</midino>
+                <options>
+                    <soft-takeover/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>loop_halve</key>
+                <status>0x90</status>
+                <midino>0x33</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>beatloop_8_toggle</key>
+                <status>0x90</status>
+                <midino>0x1D</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>beatlooproll_0.5_activate</key>
+                <status>0x80</status>
+                <midino>0x46</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>rate_temp_down</key>
+                <status>0x90</status>
+                <midino>0x07</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[QuickEffectRack1_[Channel1]]</group>
+                <key>super1</key>
+                <status>0xB0</status>
+                <midino>0x0C</midino>
+                <options>
+                    <soft-takeover/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>quantize</key>
+                <status>0x90</status>
+                <midino>0x48</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>loop_double</key>
+                <status>0x90</status>
+                <midino>0x32</midino>
                 <options>
                     <normal/>
                 </options>
@@ -935,28 +801,45 @@
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>beatloop_8_toggle</key>
-                <status>0x90</status>
-                <midino>0x1D</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-<!-- CHANNEL 2 BEATLOOPROLL -->
-            <control>
-                <group>[Channel2]</group>
-                <key>beatlooproll_0.125_activate</key>
+                <key>beatlooproll_1_activate</key>
                 <status>0x80</status>
-                <midino>0x3F</midino>
+                <midino>0x45</midino>
                 <options>
                     <normal/>
                 </options>
             </control>
             <control>
-                <group>[Channel2]</group>
-                <key>beatlooproll_0.125_activate</key>
+                <group>[Channel1]</group>
+                <key>cue_default</key>
                 <status>0x90</status>
-                <midino>0x3F</midino>
+                <midino>0x06</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>hotcue_2_activate</key>
+                <status>0x80</status>
+                <midino>0x03</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[EqualizerRack1_[Channel1]_Effect1]</group>
+                <key>parameter3</key>
+                <status>0xB0</status>
+                <midino>0x0B</midino>
+                <options>
+                    <soft-takeover/>
+                </options>
+            </control>
+            <control>
+                <group>[QuickEffectRack1_[Channel2]_Effect1]</group>
+                <key>enabled</key>
+                <status>0x90</status>
+                <midino>0x1B</midino>
                 <options>
                     <normal/>
                 </options>
@@ -971,21 +854,39 @@
                 </options>
             </control>
             <control>
-                <group>[Channel2]</group>
-                <key>beatlooproll_0.25_activate</key>
+                <group>[Channel1]</group>
+                <key>rate_temp_up</key>
                 <status>0x90</status>
-                <midino>0x44</midino>
+                <midino>0x05</midino>
                 <options>
                     <normal/>
                 </options>
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>beatlooproll_0.5_activate</key>
+                <key>hotcue_4_activate</key>
                 <status>0x80</status>
-                <midino>0x46</midino>
+                <midino>0x18</midino>
                 <options>
                     <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>hotcue_4_activate</key>
+                <status>0x80</status>
+                <midino>0x02</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>rate</key>
+                <status>0xB0</status>
+                <midino>0x0A</midino>
+                <options>
+                    <soft-takeover/>
                 </options>
             </control>
             <control>
@@ -993,6 +894,51 @@
                 <key>beatlooproll_0.5_activate</key>
                 <status>0x90</status>
                 <midino>0x46</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>hotcue_1_clear</key>
+                <status>0x90</status>
+                <midino>0x30</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>loop_out</key>
+                <status>0x90</status>
+                <midino>0x1A</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>play</key>
+                <status>0x90</status>
+                <midino>0x04</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[EqualizerRack1_[Channel1]_Effect1]</group>
+                <key>parameter2</key>
+                <status>0xB0</status>
+                <midino>0x09</midino>
+                <options>
+                    <soft-takeover/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>hotcue_3_activate</key>
+                <status>0x80</status>
+                <midino>0x01</midino>
                 <options>
                     <normal/>
                 </options>
@@ -1000,114 +946,82 @@
             <control>
                 <group>[Channel2]</group>
                 <key>beatlooproll_1_activate</key>
-                <status>0x80</status>
-                <midino>0x45</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel2]</group>
-                <key>beatlooproll_1_activate</key>
                 <status>0x90</status>
                 <midino>0x45</midino>
                 <options>
                     <normal/>
                 </options>
             </control>
-<!-- CHANNEL 2 BEATJUMP -->
             <control>
-                <group>[Channel2]</group>
-                <key>beatjump_8_forward</key>
-                <status>0x90</status>
-                <midino>0x3D</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel2]</group>
+                <group>[Channel1]</group>
                 <key>beatjump_8_backward</key>
                 <status>0x90</status>
-                <midino>0x3E</midino>
+                <midino>0x2F</midino>
                 <options>
                     <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>loop_in</key>
+                <status>0x90</status>
+                <midino>0x19</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>hotcue_2_activate</key>
+                <status>0x90</status>
+                <midino>0x03</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>rate_temp_down</key>
+                <status>0x80</status>
+                <midino>0x16</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>volume</key>
+                <status>0xB0</status>
+                <midino>0x08</midino>
+                <options>
+                    <soft-takeover/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>beatlooproll_0.25_activate</key>
+                <status>0x90</status>
+                <midino>0x44</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>cue_gotoandplay</key>
+                <status>0x90</status>
+                <midino>0x2E</midino>
+                <options>
+                    <button/>
                 </options>
             </control>
         </controls>
         <outputs>
-<!-- CHANNEL 1 LEDS -->
-            <output>
-                <group>[Channel1]</group>
-                <key>play_indicator</key>
-                <status>0x90</status>
-                <midino>0x03</midino>
-                <on>0x7F</on>
-                <off>0x00</off>
-                <minimum>0.5</minimum>
-            </output>
-            <output>
-                <group>[Channel1]</group>
-                <key>pfl</key>
-                <status>0x90</status>
-                <midino>0x06</midino>
-                <on>0x7F</on>
-                <off>0x00</off>
-                <minimum>0.5</minimum>
-            </output>
-            <output>
-                <group>[Channel1]</group>
-                <key>loop_enabled</key>
-                <status>0x90</status>
-                <midino>0x02</midino>
-                <on>0x7F</on>
-                <off>0x00</off>
-                <minimum>0.5</minimum>
-            </output>
-            <output>
-                <group>[EqualizerRack1_[Channel1]_Effect1]</group>
-                <key>button_parameter3</key>
-                <status>0x90</status>
-                <midino>0x0B</midino>
-                <on>0x7F</on>
-                <off>0x00</off>
-                <minimum>0.5</minimum>
-            </output>
-            <output>
-                <group>[EqualizerRack1_[Channel1]_Effect1]</group>
-                <key>button_parameter2</key>
-                <status>0x90</status>
-                <midino>0x0C</midino>
-                <on>0x7F</on>
-                <off>0x00</off>
-                <minimum>0.5</minimum>
-            </output>
-            <output>
-                <group>[EqualizerRack1_[Channel1]_Effect1]</group>
-                <key>button_parameter1</key>
-                <status>0x90</status>
-                <midino>0x0D</midino>
-                <on>0x7F</on>
-                <off>0x00</off>
-                <minimum>0.5</minimum>
-            </output>
             <output>
                 <group>[QuickEffectRack1_[Channel1]_Effect1]</group>
                 <key>enabled</key>
                 <status>0x90</status>
                 <midino>0x04</midino>
-                <on>0x7F</on>
-                <off>0x00</off>
-                <minimum>0.5</minimum>
-            </output>
-<!-- CHANNEL 2 LEDS -->
-            <output>
-                <group>[Channel2]</group>
-                <key>play_indicator</key>
-                <status>0x90</status>
-                <midino>0x09</midino>
-                <on>0x7F</on>
-                <off>0x00</off>
                 <minimum>0.5</minimum>
             </output>
             <output>
@@ -1115,35 +1029,13 @@
                 <key>pfl</key>
                 <status>0x90</status>
                 <midino>0x07</midino>
-                <on>0x7F</on>
-                <off>0x00</off>
                 <minimum>0.5</minimum>
             </output>
             <output>
-                <group>[Channel2]</group>
-                <key>loop_enabled</key>
+                <group>[Channel1]</group>
+                <key>pfl</key>
                 <status>0x90</status>
-                <midino>0x08</midino>
-                <on>0x7F</on>
-                <off>0x00</off>
-                <minimum>0.5</minimum>
-            </output>
-            <output>
-                <group>[EqualizerRack1_[Channel2]_Effect1]</group>
-                <key>button_parameter3</key>
-                <status>0x90</status>
-                <midino>0x00</midino>
-                <on>0x7F</on>
-                <off>0x00</off>
-                <minimum>0.5</minimum>
-            </output>
-            <output>
-                <group>[EqualizerRack1_[Channel2]_Effect1]</group>
-                <key>button_parameter2</key>
-                <status>0x90</status>
-                <midino>0x0F</midino>
-                <on>0x7F</on>
-                <off>0x00</off>
+                <midino>0x06</midino>
                 <minimum>0.5</minimum>
             </output>
             <output>
@@ -1151,8 +1043,69 @@
                 <key>button_parameter1</key>
                 <status>0x90</status>
                 <midino>0x0E</midino>
-                <on>0x7F</on>
-                <off>0x00</off>
+                <minimum>0.5</minimum>
+            </output>
+            <output>
+                <group>[Channel2]</group>
+                <key>play_indicator</key>
+                <status>0x90</status>
+                <midino>0x09</midino>
+                <minimum>0.5</minimum>
+            </output>
+            <output>
+                <group>[Channel1]</group>
+                <key>play_indicator</key>
+                <status>0x90</status>
+                <midino>0x03</midino>
+                <minimum>0.5</minimum>
+            </output>
+            <output>
+                <group>[EqualizerRack1_[Channel1]_Effect1]</group>
+                <key>button_parameter1</key>
+                <status>0x90</status>
+                <midino>0x0D</midino>
+                <minimum>0.5</minimum>
+            </output>
+            <output>
+                <group>[EqualizerRack1_[Channel2]_Effect1]</group>
+                <key>button_parameter3</key>
+                <status>0x90</status>
+                <midino>0x00</midino>
+                <minimum>0.5</minimum>
+            </output>
+            <output>
+                <group>[EqualizerRack1_[Channel2]_Effect1]</group>
+                <key>button_parameter2</key>
+                <status>0x90</status>
+                <midino>0x0F</midino>
+                <minimum>0.5</minimum>
+            </output>
+            <output>
+                <group>[EqualizerRack1_[Channel1]_Effect1]</group>
+                <key>button_parameter3</key>
+                <status>0x90</status>
+                <midino>0x0B</midino>
+                <minimum>0.5</minimum>
+            </output>
+            <output>
+                <group>[Channel1]</group>
+                <key>loop_enabled</key>
+                <status>0x90</status>
+                <midino>0x02</midino>
+                <minimum>0.5</minimum>
+            </output>
+            <output>
+                <group>[EqualizerRack1_[Channel1]_Effect1]</group>
+                <key>button_parameter2</key>
+                <status>0x90</status>
+                <midino>0x0C</midino>
+                <minimum>0.5</minimum>
+            </output>
+            <output>
+                <group>[Channel2]</group>
+                <key>loop_enabled</key>
+                <status>0x90</status>
+                <midino>0x08</midino>
                 <minimum>0.5</minimum>
             </output>
             <output>
@@ -1160,8 +1113,6 @@
                 <key>enabled</key>
                 <status>0x90</status>
                 <midino>0x05</midino>
-                <on>0x7F</on>
-                <off>0x00</off>
                 <minimum>0.5</minimum>
             </output>
         </outputs>
